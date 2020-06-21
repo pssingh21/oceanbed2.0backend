@@ -19,6 +19,8 @@
   "homepage": "https://github.com/pssingh21/oceanbed2.0backend#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "serverless-http": "^2.5.0"
+    "serverless-http": "^2.5.0",
+    "serverless-webpack": "^5.3.2",
+    "webpack": "^4.43.0"
   }
 }
