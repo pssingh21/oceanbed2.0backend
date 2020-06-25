@@ -1,24 +1,26 @@
 {
   "name": "oceanbed-backend",
   "version": "2.0.0",
-  "description": "",
+  "description": "Oceanbed 2.0 serverless Backend API using AWS Lambda and FaunaDB",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-schema": "node schemas/schema.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pssingh21/oceanbed2.0backend.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Peeyush Man Singh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/pssingh21/oceanbed2.0backend/issues"
   },
   "homepage": "https://github.com/pssingh21/oceanbed2.0backend#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "dotenv": "^4.0.0",
+    "faunadb": "^2.14.2",
     "serverless-http": "^2.5.0",
     "serverless-webpack": "^5.3.2",
     "webpack": "^4.43.0"
