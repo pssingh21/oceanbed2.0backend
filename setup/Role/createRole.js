@@ -1,25 +1,26 @@
 import { query as q } from "faunadb";
+import CONSTANTS from "../../utils/constants";
 
 function createRole(faunaClient) {
   return faunaClient.query(
     q.Do(
       q.CreateRole({
-        name: "USER",
+        name: CONSTANTS.ROLE.USER,
         membership: {
-          resource: q.Collection("User"),
+          resource: q.Collection(CONSTANTS.COLLECTIONS.USER),
           predicate: q.Query(
             q.Lambda(
               ["userRef"],
               q.Equals(
                 q.Select(["data", "role"], q.Get(q.Var("userRef"))),
-                "USER"
+                CONSTANTS.ROLE.USER
               )
             )
           ),
         },
         privileges: [
           {
-            resource: q.Collection("User"),
+            resource: q.Collection(CONSTANTS.COLLECTIONS.USER),
             actions: {
               create: true,
               read: true,
@@ -29,7 +30,7 @@ function createRole(faunaClient) {
             },
           },
           {
-            resource: q.Collection("Feedback"),
+            resource: q.Collection(CONSTANTS.COLLECTIONS.FEEDBACK),
             actions: {
               create: q.Query((newData) =>
                 q.Equals(q.Identity(), q.Select(["data", "user"], newData))
@@ -40,7 +41,7 @@ function createRole(faunaClient) {
             },
           },
           {
-            resource: q.Collection("Post"),
+            resource: q.Collection(CONSTANTS.COLLECTIONS.POST),
             actions: {
               create: q.Query((newData) =>
                 q.Equals(q.Identity(), q.Select(["data", "user"], newData))
@@ -59,31 +60,31 @@ function createRole(faunaClient) {
             },
           },
           {
-            resource: q.Index("get_all_users"),
+            resource: q.Index(CONSTANTS.INDEXES.GET_ALL_USERS),
             actions: {
               read: false,
             },
           },
           {
-            resource: q.Index("get_all_posts"),
+            resource: q.Index(CONSTANTS.INDEXES.GET_ALL_POSTS),
             actions: {
               read: true,
             },
           },
           {
-            resource: q.Index("get_reported_posts"),
+            resource: q.Index(CONSTANTS.INDEXES.GET_REPORTED_POSTS),
             actions: {
               read: false,
             },
           },
           {
-            resource: q.Index("get_posts_by_country"),
+            resource: q.Index(CONSTANTS.INDEXES.GET_POSTS_BY_COUNTRY),
             actions: {
               read: true,
             },
           },
           {
-            resource: q.Index("get_posts_by_user"),
+            resource: q.Index(CONSTANTS.INDEXES.GET_POSTS_BY_USER),
             actions: {
               read: q.Query(
                 q.Lambda("terms", q.Equals(q.Var("terms"), [q.Identity()]))
@@ -91,67 +92,67 @@ function createRole(faunaClient) {
             },
           },
           {
-            resource: q.Function("addPost"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.ADD_POST),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("getPostsByCountry"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.GET_POSTS_BY_COUNTRY),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("reportPost"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.REPORT_POST),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("addLikes"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.ADD_LIKES),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("addFeedback"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.ADD_FEEDBACK),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("deletePost"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.DELETE_POST),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("deleteUser"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.DELETE_USER),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("getPostsByUser"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.GET_POSTS_BY_USER),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("registerUser"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.REGISTER_USER),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("loginUser"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.LOGIN_USER),
             actions: {
               call: true,
             },
           },
           {
-            resource: q.Function("logoutUser"),
+            resource: q.Function(CONSTANTS.FUNCTIONS.LOGOUT_USER),
             actions: {
               call: true,
             },

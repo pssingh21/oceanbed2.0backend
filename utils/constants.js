@@ -11,11 +11,13 @@ const CONSTANTS = {
     GET_REPORTED_POSTS: "get_reported_posts",
     GET_POSTS_BY_COUNTRY: "get_posts_by_country",
     GET_ALL_FEEDBACKS: "get_all_feedbacks",
+    UNIQUE_USER_USERNAME: "unique_User_username",
   },
   FUNCTIONS: {
     REGISTER_USER: "registerUser",
     LOGIN_USER: "loginUser",
     LOGOUT_USER: "logoutUser",
+    ADD_POST: "addPost",
     ADD_FEEDBACK: "addFeedback",
     REPORT_POST: "reportPost",
     UNREPORT_POST: "unreportPost",

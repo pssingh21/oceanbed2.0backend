@@ -1,19 +1,20 @@
 import { query as q } from "faunadb";
+import CONSTANTS from "../../utils/constants";
 
 function createIndex(faunaClient) {
   return faunaClient.query(
     q.Do(
       q.CreateIndex({
-        name: "get_all_users",
-        source: q.Collection("User"),
+        name: CONSTANTS.INDEXES.GET_ALL_USERS,
+        source: q.Collection(CONSTANTS.COLLECTIONS.USER),
       }),
       q.CreateIndex({
-        name: "get_all_posts",
-        source: q.Collection("Post"),
+        name: CONSTANTS.INDEXES.GET_ALL_POSTS,
+        source: q.Collection(CONSTANTS.COLLECTIONS.POST),
       }),
       q.CreateIndex({
-        name: "get_posts_by_user",
-        source: q.Collection("Post"),
+        name: CONSTANTS.INDEXES.GET_POSTS_BY_USER,
+        source: q.Collection(CONSTANTS.COLLECTIONS.POST),
         terms: [
           {
             field: ["data", "user"],
@@ -21,8 +22,8 @@ function createIndex(faunaClient) {
         ],
       }),
       q.CreateIndex({
-        name: "get_reported_posts",
-        source: q.Collection("Post"),
+        name: CONSTANTS.INDEXES.GET_REPORTED_POSTS,
+        source: q.Collection(CONSTANTS.COLLECTIONS.POST),
         terms: [
           {
             field: ["data", "report"],
@@ -30,8 +31,8 @@ function createIndex(faunaClient) {
         ],
       }),
       q.CreateIndex({
-        name: "get_posts_by_country",
-        source: q.Collection("Post"),
+        name: CONSTANTS.INDEXES.GET_POSTS_BY_COUNTRY,
+        source: q.Collection(CONSTANTS.COLLECTIONS.POST),
         terms: [
           {
             field: ["data", "country"],
@@ -39,8 +40,8 @@ function createIndex(faunaClient) {
         ],
       }),
       q.CreateIndex({
-        name: "get_all_feedbacks",
-        source: q.Collection("Feedback"),
+        name: CONSTANTS.INDEXES.GET_ALL_FEEDBACKS,
+        source: q.Collection(CONSTANTS.COLLECTIONS.FEEDBACK),
       })
     )
   );

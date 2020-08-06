@@ -1,14 +1,15 @@
 import { query as q } from "faunadb";
+import CONSTANTS from "../../utils/constants";
 
 function createFunction(faunaClient) {
   return faunaClient.query(
     q.Do(
       q.CreateFunction({
-        name: "registerUser",
+        name: CONSTANTS.FUNCTIONS.REGISTER_USER,
         body: q.Query(
           q.Lambda(
             ["input"],
-            q.Create(q.Collection("User"), {
+            q.Create(q.Collection(CONSTANTS.COLLECTIONS.USER), {
               data: {
                 username: q.Select("username", q.Var("input")),
                 email: q.Select("email", q.Var("input")),
@@ -23,7 +24,7 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "loginUser",
+        name: CONSTANTS.FUNCTIONS.LOGIN_USER,
         body: q.Query(
           q.Lambda(
             ["input"],
@@ -31,7 +32,7 @@ function createFunction(faunaClient) {
               "secret",
               q.Login(
                 q.Match(
-                  q.Index("unique_User_username"),
+                  q.Index(CONSTANTS.INDEXES.UNIQUE_USER_USERNAME),
                   q.Select("username", q.Var("input"), "international")
                 ),
                 {
@@ -43,15 +44,15 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "logoutUser",
+        name: CONSTANTS.FUNCTIONS.LOGOUT_USER,
         body: q.Query(q.Lambda([], q.Logout(false))),
       }),
       q.CreateFunction({
-        name: "addPost",
+        name: CONSTANTS.FUNCTIONS.ADD_POST,
         body: q.Query(
           q.Lambda(
             ["input"],
-            q.Create(q.Collection("Post"), {
+            q.Create(q.Collection(CONSTANTS.COLLECTIONS.POST), {
               data: {
                 content: q.Select("content", q.Var("input")),
                 country: q.Select("country", q.Var("input")),
@@ -61,7 +62,7 @@ function createFunction(faunaClient) {
                   ["ref"],
                   q.Get(
                     q.Ref(
-                      q.Collection("User"),
+                      q.Collection(CONSTANTS.COLLECTIONS.USER),
                       q.Select("userId", q.Var("input"))
                     )
                   )
@@ -72,18 +73,18 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "addFeedback",
+        name: CONSTANTS.FUNCTIONS.ADD_FEEDBACK,
         body: q.Query(
           q.Lambda(
             ["input"],
-            q.Create(q.Collection("Feedback"), {
+            q.Create(q.Collection(CONSTANTS.COLLECTIONS.FEEDBACK), {
               data: {
                 content: q.Select("content", q.Var("input")),
                 user: q.Select(
                   ["ref"],
                   q.Get(
                     q.Ref(
-                      q.Collection("User"),
+                      q.Collection(CONSTANTS.COLLECTIONS.USER),
                       q.Select("userId", q.Var("input"))
                     )
                   )
@@ -94,12 +95,15 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "reportPost",
+        name: CONSTANTS.FUNCTIONS.REPORT_POST,
         body: q.Query(
           q.Lambda(
             ["input"],
             q.Update(
-              q.Ref(q.Collection("Post"), q.Select("postId", q.Var("input"))),
+              q.Ref(
+                q.Collection(CONSTANTS.COLLECTIONS.POST),
+                q.Select("postId", q.Var("input"))
+              ),
               {
                 data: {
                   report: true,
@@ -110,12 +114,15 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "unreportPost",
+        name: CONSTANTS.FUNCTIONS.UNREPORT_POST,
         body: q.Query(
           q.Lambda(
             ["input"],
             q.Update(
-              q.Ref(q.Collection("Post"), q.Select("postId", q.Var("input"))),
+              q.Ref(
+                q.Collection(CONSTANTS.COLLECTIONS.POST),
+                q.Select("postId", q.Var("input"))
+              ),
               {
                 data: {
                   report: false,
@@ -126,12 +133,15 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "addLikes",
+        name: CONSTANTS.FUNCTIONS.ADD_LIKES,
         body: q.Query(
           q.Lambda(
             ["input"],
             q.Update(
-              q.Ref(q.Collection("Post"), q.Select("postId", q.Var("input"))),
+              q.Ref(
+                q.Collection(CONSTANTS.COLLECTIONS.POST),
+                q.Select("postId", q.Var("input"))
+              ),
               {
                 data: {
                   likes: q.Select("likes", q.Var("input")),
@@ -142,18 +152,21 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "deletePost",
+        name: CONSTANTS.FUNCTIONS.DELETE_POST,
         body: q.Query(
           q.Lambda(
             ["input"],
             q.Delete(
-              q.Ref(q.Collection("Post"), q.Select("postId", q.Var("input")))
+              q.Ref(
+                q.Collection(CONSTANTS.COLLECTIONS.POST),
+                q.Select("postId", q.Var("input"))
+              )
             )
           )
         ),
       }),
       q.CreateFunction({
-        name: "deleteUser",
+        name: CONSTANTS.FUNCTIONS.DELETE_USER,
         body: q.Query(
           q.Lambda(
             ["input"],
@@ -161,12 +174,12 @@ function createFunction(faunaClient) {
               q.Map(
                 q.Paginate(
                   q.Match(
-                    q.Index("get_posts_by_user"),
+                    q.Index(CONSTANTS.INDEXES.GET_POSTS_BY_USER),
                     q.Select(
                       ["ref"],
                       q.Get(
                         q.Ref(
-                          q.Collection("User"),
+                          q.Collection(CONSTANTS.COLLECTIONS.USER),
                           q.Select("userId", q.Var("input"))
                         )
                       )
@@ -176,26 +189,29 @@ function createFunction(faunaClient) {
                 q.Lambda(["postByUser"], q.Delete(q.Var("postByUser")))
               ),
               q.Delete(
-                q.Ref(q.Collection("User"), q.Select("userId", q.Var("input")))
+                q.Ref(
+                  q.Collection(CONSTANTS.COLLECTIONS.USER),
+                  q.Select("userId", q.Var("input"))
+                )
               )
             )
           )
         ),
       }),
       q.CreateFunction({
-        name: "getPostsByUser",
+        name: CONSTANTS.FUNCTIONS.GET_POSTS_BY_USER,
         body: q.Query(
           q.Lambda(
             ["input", "size", "after", "before"],
             q.Let(
               {
                 match: q.Match(
-                  q.Index("get_posts_by_user"),
+                  q.Index(CONSTANTS.INDEXES.GET_POSTS_BY_USER),
                   q.Select(
                     ["ref"],
                     q.Get(
                       q.Ref(
-                        q.Collection("User"),
+                        q.Collection(CONSTANTS.COLLECTIONS.USER),
                         q.Select("userId", q.Var("input"))
                       )
                     )
@@ -223,13 +239,16 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "getReportedPosts",
+        name: CONSTANTS.FUNCTIONS.GET_REPORTED_POSTS,
         body: q.Query(
           q.Lambda(
             ["size", "after", "before"],
             q.Let(
               {
-                match: q.Match(q.Index("get_reported_posts"), true),
+                match: q.Match(
+                  q.Index(CONSTANTS.INDEXES.GET_REPORTED_POSTS),
+                  true
+                ),
                 page: q.If(
                   q.Equals(q.Var("before"), null),
                   q.If(
@@ -252,14 +271,14 @@ function createFunction(faunaClient) {
         ),
       }),
       q.CreateFunction({
-        name: "getPostsByCountry",
+        name: CONSTANTS.FUNCTIONS.GET_POSTS_BY_COUNTRY,
         body: q.Query(
           q.Lambda(
             ["input", "size", "after", "before"],
             q.Let(
               {
                 match: q.Match(
-                  q.Index("get_posts_by_country"),
+                  q.Index(CONSTANTS.INDEXES.GET_POSTS_BY_COUNTRY),
                   q.Select("country", q.Var("input"))
                 ),
                 page: q.If(
