@@ -1,5 +1,5 @@
 import { handler } from "./graphQL/handler";
-import { setupFaunaDBSchema } from "./lib/faunadb";
+import { setupFaunaDBSchema } from "./setup/setupFauna";
 const graphql = handler;
 const setupFaunaDB = setupFaunaDBSchema;
 
