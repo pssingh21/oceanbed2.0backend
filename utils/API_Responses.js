@@ -10,7 +10,7 @@ const Responses = {
       body: JSON.stringify(data),
     };
   },
-  _400(data = {}) {
+  _400(error = {}) {
     return {
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +18,9 @@ const Responses = {
         "Access-Control-Allow-Origin": "*",
       },
       statusCode: 400,
-      body: JSON.stringify(data),
+      body: JSON.stringify(error),
     };
   },
 };
 
-module.exports = Responses;
+export default Responses;

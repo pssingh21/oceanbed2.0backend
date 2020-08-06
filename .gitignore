@@ -4,12 +4,17 @@ jspm_packages
 
 # Serverless directories
 .serverless
+secrets.yml
 
 #env variables
 .env
+.faunarc
 
 # production
 dist/
 
 # VSCode
 .vscode
+
+# Webpack
+.webpack

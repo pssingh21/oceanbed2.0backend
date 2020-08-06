@@ -1,0 +1,112 @@
+## Auth and User
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+type User {
+  id: ID
+  username: String! @unique
+  email: String! @unique
+  password: String!
+  country: String
+  role: UserRole!
+}
+
+input RegisterUserInput {
+  username: String!
+  email: String!
+  password: String!
+  role: UserRole
+  country: String
+}
+
+input LoginUserInput {
+  username: String!
+  password: String!
+}
+
+input DeleteUserInput {
+  userId: String!
+}
+
+## Post
+
+type Post {
+  content: String!
+  likes: Int
+  report: Boolean
+  user: User! @relation
+  country: String
+}
+
+input CreatePostInput {
+  content: String!
+  country: String
+  userId: String!
+}
+
+input GetPostsByUserInput {
+  userId: String!
+}
+
+input GetPostsByCountryInput {
+  country: String
+}
+
+input ReportPostInput {
+  postId: String!
+}
+
+input AddLikesInput {
+  postId: String!
+  likes: Int!
+}
+
+input DeletePostInput {
+  postId: String!
+}
+
+## Feedbacks
+
+type Feedback {
+  content: String!
+  user: User! @relation
+}
+
+input AddFeedbackInput {
+  content: String!
+  userId: String!
+}
+
+## Queries
+
+type Query {
+  login_user(input: LoginUserInput!): String! @resolver(name: "loginUser")
+  get_all_users: [User!]!
+  get_all_posts: [Post!]!
+  get_all_feedbacks: [Feedback!]!
+  get_posts_by_user(input: GetPostsByUserInput!): [Post!]
+    @resolver(name: "getPostsByUser", paginated: true)
+  get_posts_by_country(input: GetPostsByCountryInput): [Post!]
+    @resolver(name: "getPostsByCountry", paginated: true)
+  get_reported_posts: [Post!]
+    @resolver(name: "getReportedPosts", paginated: true)
+  logout: String! @resolver(name: "logoutUser")
+}
+
+## Mutations
+
+type Mutation {
+  register_user(input: RegisterUserInput!): User!
+    @resolver(name: "registerUser")
+  delete_user(input: DeleteUserInput!): User! @resolver(name: "deleteUser")
+  add_post(input: CreatePostInput!): Post! @resolver(name: "addPost")
+  delete_post(input: DeletePostInput!): Post! @resolver(name: "deletePost")
+  report_post(input: ReportPostInput!): Post! @resolver(name: "reportPost")
+  unreport_post(input: ReportPostInput!): Post! @resolver(name: "unreportPost")
+  add_likes(input: AddLikesInput!): Post! @resolver(name: "addLikes")
+  add_feedback(input: AddFeedbackInput!): Feedback!
+    @resolver(name: "addFeedback")
+}

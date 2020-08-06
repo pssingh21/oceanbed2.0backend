@@ -24,8 +24,12 @@ provider:
   name: aws
   runtime: nodejs12.x
   profile: oceanbedUser
-  stage: dev
+  stage: prod
   region: eu-central-1
+  environment:
+    FAUNADB_ENDPOINT: "${self:custom.secrets.FAUNADB_ENDPOINT}"
+    FAUNADB_SECRET: "${self:custom.secrets.FAUNADB_SECRET}"
+    FAUNDB_TEMP_USER: "${self:custom.secrets.FAUNDB_TEMP_USER}"
 
 # you can overwrite defaults here
 #  stage: dev
@@ -52,13 +56,12 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
-#package:
+# package:
 #  include:
 #    - include-me.js
 #    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+
+#  - exclude-me-dir/**
 
 # functions:
 #   app:
@@ -74,19 +77,40 @@ provider:
 #           cors: true
 
 functions:
-  getUser:
-    handler: lambdas/getUser.handler
+  setupFaunaDB:
+    handler: index.setupFaunaDB
+
+  handleRequests:
+    handler: index.graphql
+    include:
+      - index.js
     events:
       - http:
-          path: get-user/{ID}
-          method: GET
+          path: oceanbed/graphql
+          method: POST
           cors: true
 
 plugins:
   - serverless-webpack
+  - serverless-offline
 
 package:
   individually: true
+  exclude:
+    - secrets.yml
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  secrets: ${file(secrets.yml):${self:custom.stage}}
+
+custom.webpack:
+  includeModules: true
+  webpack:
+    webpackConfig: "webpack.config.js" # Name of webpack configuration file
+    includeModules: true # Node modules configuration for packaging
+    packager: "npm" # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
