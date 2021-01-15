@@ -16,6 +16,16 @@ npm install
 npm run setup-schema
 ```
 
+## ENV Variables
+
+`secrets.yml`
+
+```yml
+FAUNADB_ENDPOINT: ""
+FAUNADB_SECRET: ""
+FAUNDB_TEMP_USER: ""
+```
+
 ## Deploy to AWS
 
 ```sh
