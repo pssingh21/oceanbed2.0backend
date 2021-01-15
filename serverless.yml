@@ -101,7 +101,7 @@ package:
 
 custom:
   stage: ${opt:stage, self:provider.stage}
-  secrets: ${file(secrets.yml):${self:custom.stage}}
+  secrets: ${file(secrets.yml)}
 
 custom.webpack:
   includeModules: true

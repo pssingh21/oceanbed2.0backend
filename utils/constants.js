@@ -27,6 +27,7 @@ const CONSTANTS = {
     GET_POSTS_BY_USER: "getPostsByUser",
     GET_REPORTED_POSTS: "getReportedPosts",
     GET_POSTS_BY_COUNTRY: "getPostsByCountry",
+    GET_USER_ID: "getUserId",
   },
   ROLE: {
     USER: "USER",

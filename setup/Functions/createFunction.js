@@ -301,6 +301,17 @@ function createFunction(faunaClient) {
             )
           )
         ),
+      }),
+      q.CreateFunction({
+        name: CONSTANTS.FUNCTIONS.GET_USER_ID,
+        body: q.Query(
+          q.Lambda(
+            ["input"],
+            q.ToString(
+              q.Select(["instance", "id"], q.KeyFromSecret(q.Var("input")))
+            )
+          )
+        ),
       })
     )
   );

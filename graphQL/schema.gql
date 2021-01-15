@@ -84,6 +84,7 @@ input AddFeedbackInput {
 
 type Query {
   login_user(input: LoginUserInput!): String! @resolver(name: "loginUser")
+  get_user_id(input: String!): String! @resolver(name: "getUserId")
   get_all_users: [User!]!
   get_all_posts: [Post!]!
   get_all_feedbacks: [Feedback!]!
@@ -93,7 +94,7 @@ type Query {
     @resolver(name: "getPostsByCountry", paginated: true)
   get_reported_posts: [Post!]
     @resolver(name: "getReportedPosts", paginated: true)
-  logout: String! @resolver(name: "logoutUser")
+  logout: Boolean! @resolver(name: "logoutUser")
 }
 
 ## Mutations
