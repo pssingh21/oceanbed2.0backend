@@ -1,5 +1,5 @@
 {
-  "name": "oceanbed-backend",
+  "name": "oceanbed-backend2.0",
   "version": "2.0.0",
   "description": "Oceanbed 2.0 serverless Backend API using AWS Lambda and FaunaDB",
   "main": "app.js",
