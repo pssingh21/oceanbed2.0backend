@@ -1,13 +1,10 @@
-# Welcome to oceanved-backend2.0 👋
+# Oceanbed-backend2.0
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/pssingh21/oceanbed2.0backend#readme)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/pssingh21/oceanbed2.0backend/graphs/commit-activity)
-[![License: ISC](https://img.shields.io/github/license/pssingh21/oceanved-backend2.0)](https://github.com/pssingh21/oceanbed2.0backend/blob/master/LICENSE)
 
 > Oceanbed 2.0 serverless Backend API using AWS Lambda and FaunaDB
-
-### 🏠 [Homepage](https://github.com/pssingh21/oceanbed2.0backend#readme)
 
 ## Install
 
@@ -27,12 +24,6 @@ npm run setup-schema
 serverless deploy
 ```
 
-## Run tests
-
-```sh
-npm run test
-```
-
 ## Author
 
 👤 **Peeyush Man Singh**
@@ -43,7 +34,7 @@ npm run test
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check [issues page](https://github.com/pssingh21/oceanbed2.0backend/issues). You can also take a look at the [contributing guide](https://github.com/pssingh21/oceanbed2.0backend/blob/master/CONTRIBUTING.md).
+Feel free to check [issues page](https://github.com/pssingh21/oceanbed2.0backend/issues).
 
 ## Show your support
 
