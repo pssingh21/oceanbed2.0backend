@@ -1,8 +1,6 @@
 # Oceanbed-backend2.0
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
-[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/pssingh21/oceanbed2.0backend#readme)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/pssingh21/oceanbed2.0backend/graphs/commit-activity)
 
 > Oceanbed 2.0 serverless Backend API using AWS Lambda and FaunaDB
 
